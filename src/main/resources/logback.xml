@@ -1,0 +1,59 @@
+<configuration debug="true" scan="true" scanPeriod="30 seconds">
+
+    <variable resource="application.yml" />
+<!--    <if condition='isNull("max-history-keep-days")'>
+        <then>
+            <property name="max-history-keep-days" value="30"/>
+        </then>
+    </if>-->
+    <property name="logback.rollingPattern" value="%d{yyyy-MM-dd}" />
+    <property name="logback.logdir" value="target"/>
+    <property name="logback.fullPattern" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />
+
+    <appender name="STDOUT"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+   <appender name="LOGFILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logback.logdir}/app.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/log/app.log.${logback.rollingPattern}</fileNamePattern>
+            <maxHistory>${max-history-keep-days}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${logback.fullPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="LOGFILE-NEW"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logback.logdir}/app1.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/log/app1.log.${logback.rollingPattern}</fileNamePattern>
+            <maxHistory>${max-history-keep-days}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${logback.fullPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.test.controller.ReservationServiceController" level="WARN" additivity="false" >
+        <appender-ref ref="LOGFILE"/>
+    </logger>
+
+    <logger name="com.test.service.CapitalService" level="WARN" additivity="false">
+        <appender-ref ref="LOGFILE-NEW"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="LOGFILE"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+
+</configuration>

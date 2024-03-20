@@ -1,0 +1,14 @@
+server:
+  servlet:
+    context-path: /loggertest
+
+logging:
+  max-history-keep-days: 1
+#  level:
+#    com.test.controller.RestController: WARN
+#    com.test.service.CapitalService: WARN
+
+
+
+
+
